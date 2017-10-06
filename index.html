@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Train Scheduler With Firebase</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/js/bootstrap-timepicker.min.js">
+</head>
+<body>
+  <div class ="container">
+    <div class ="jumbotron customjumbotron">
+      <h1 class ="text-center">Any Time is Train Time</h1>
+      <p class = "text-center">Choo Choo Chi Chi</p>
+      </div>  
+  </div>
+  <div class ="container">
+    <div class = "panel panel-primary">
+      <div class = "panel-heading content-header">
+        <h3 class="panel-title">Current Employees</h3>
+        </div>
+      <div class="panel-body">
+        
+          <table class="table table-striped">
+          <thead>
+            <tr>
+            <th>Train Name</th>
+            <th>Destination</th>
+            <th>frequency</th>
+            <th>Next Arrival</th>
+            <th>minutes away</th>
+            
+            </tr>
+          </thead>
+          <tbody id="table-body">
+          
+          </tbody>
+        </table>
+        </div>
+    </div>
+  </div>
+
+  <div class ="container">
+     <div class = "panel panel-primary">
+      <div class = "panel-heading content-header">
+        <h3 class="panel-title">Current Employees</h3>
+        </div>
+      <div class="panel-body">
+                    <form id="employee-form">
+
+            <div class="form-group">
+              <label for="name">Train time</label>
+              <input type="text" class="form-control" id="train-name" name="name" required>
+            </div>
+
+            <div class="form-group">
+              <label for="Destination">Destination</label>
+              <input type="text" class="form-control" id ="train-destination" name="Destination" required>
+            </div>
+            <div class="form-group">
+              <label for="Train-start-time">Train Start Time(Military Time)</label>
+              <input type="text" class="form-control" id ="train-start-time" name="start-time" required>
+            </div>
+            <div class="form-group">
+              <label for="Train-start-time">Frequency in Minutes</label>
+              <input type="text" class="form-control" id ="train-start-time" name="start-time" required>
+            </div>
+            <button type="submit" class="btn btn-primary" id="employee-form-submit">Submit</button>
+            </form>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
