@@ -46,10 +46,10 @@
         <h3 class="panel-title">Add Train</h3>
         </div>
       <div class="panel-body">
-                    <form id="employee-form">
+                    <form id="add-train-form">
 
             <div class="form-group">
-              <label for="name">Train time</label>
+              <label for="name">Train Name</label>
               <input type="text" class="form-control" id="train-name" name="name" required>
             </div>
 
@@ -63,13 +63,76 @@
             </div>
             <div class="form-group">
               <label for="Train-start-time">Frequency in Minutes</label>
-              <input type="text" class="form-control" id ="train-start-time" name="start-time" required>
+              <input type="text" class="form-control" id ="train-frequency" name="start-time" required>
             </div>
-            <button type="submit" class="btn btn-primary" id="employee-form-submit">Submit</button>
+            <button type="submit" class="btn btn-primary" id="train-details-submit">Submit</button>
             </form>
       </div>
     </div>
   </div>
+<!-- fireBase Link -->
+  <script src="https://www.gstatic.com/firebasejs/4.5.0/firebase.js"></script>
 
+<!-- JQuery Link -->
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+<!-- MOMENTS LIBRARY -->
+  <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+
+  <script>
+    var config = {
+    apiKey: "AIzaSyAulGSWI2YPGccEdVW3t7vSxhCPJQ3dT8g",
+    authDomain: "traintable-bf08e.firebaseapp.com",
+    databaseURL: "https://traintable-bf08e.firebaseio.com",
+    projectId: "traintable-bf08e",
+    storageBucket: "",
+    messagingSenderId: "661492019281"
+    };
+    
+    firebase.initializeApp(config);
+
+    var database = firebase.database();
+
+    var ref = database.ref();
+
+
+    $("#train-details-submit").on("click",function(e){
+      var inpObj = $("#add-train-form");
+      if (inpObj[0].checkValidity() === false) {
+        return
+      } else {
+        e.preventDefault() 
+      }
+
+      var trainName = $("#train-name").val().trim();
+      var trainDestination = $("#train-destination").val().trim();
+      var trainStartTime = $("#train-start-time").val().trim();
+      var trainFrequency = $("#train-frequency").val().trim();
+      var mtrainFrequency =moment(trainFrequency,"minutes").format("mm");
+      var trainTimeFormatted = moment(trainStartTime).format("HH:mm");
+      // var nextArrival = ;
+      // var minutesAway = ; 
+
+      ref.push({
+        dbtrainName : trainName,
+        dbtrainDestination : trainDestination,
+        dbtrainStartTime : trainTimeFormatted,
+        dbTrainFrequency : mtrainFrequency
+
+      })
+
+      $("form").trigger("reset"); // clear form
+      return false; // prevent page refresh
+
+
+    })
+
+    // database.ref().on("child_added", function(snapshot) {
+        
+      
+    // });
+
+
+  </script>
 </body>
 </html>
