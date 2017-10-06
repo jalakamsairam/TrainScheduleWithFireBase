@@ -81,20 +81,38 @@
 
   <script>
     var config = {
-    apiKey: "AIzaSyAulGSWI2YPGccEdVW3t7vSxhCPJQ3dT8g",
-    authDomain: "traintable-bf08e.firebaseapp.com",
-    databaseURL: "https://traintable-bf08e.firebaseio.com",
-    projectId: "traintable-bf08e",
-    storageBucket: "",
-    messagingSenderId: "661492019281"
-    };
-    
+    apiKey: "AIzaSyCvEx4bnVr7EkuLDf5GScUcGp9l3qHCRQs",
+    authDomain: "traintable1.firebaseapp.com",
+    databaseURL: "https://traintable1.firebaseio.com",
+    projectId: "traintable1",
+    storageBucket: "traintable1.appspot.com",
+    messagingSenderId: "273173788784"
+  };
     firebase.initializeApp(config);
 
     var database = firebase.database();
 
     var ref = database.ref();
 
+    var trainName = '';
+
+    var trainDestination = '';
+
+    var trainStartTime = '';
+
+    var tFrequency = 0;
+
+    var firstTimeConverted = '';
+
+    var currentTime = '';
+
+    var diffTime = 0;
+
+    var tRemainder = 0;
+
+    var tMinutesTillTrain = 0;
+
+    var nextTrain = '';
 
     $("#train-details-submit").on("click",function(e){
       var inpObj = $("#add-train-form");
@@ -104,20 +122,34 @@
         e.preventDefault() 
       }
 
-      var trainName = $("#train-name").val().trim();
-      var trainDestination = $("#train-destination").val().trim();
-      var trainStartTime = $("#train-start-time").val().trim();
-      var trainFrequency = $("#train-frequency").val().trim();
-      var mtrainFrequency =moment(trainFrequency,"minutes").format("mm");
-      var trainTimeFormatted = moment(trainStartTime).format("HH:mm");
-      // var nextArrival = ;
-      // var minutesAway = ; 
-
+       trainName = $("#train-name").val().trim();
+       trainDestination = $("#train-destination").val().trim();
+       trainStartTime = $("#train-start-time").val().trim();
+       tFrequency = parseInt($("#train-frequency").val().trim());
+        firstTimeConverted = (moment(trainStartTime, "hh:mm").subtract(1, "years"));
+        currentTime = (moment());
+       diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+       tRemainder = (diffTime % tFrequency).toString();
+       tMinutesTillTrain = (tFrequency - tRemainder).toString();
+       nextTrain = JSON.stringify(moment().add(tMinutesTillTrain, "minutes"));
+// Train Start Time (pushed back 1 year to make sure it comes before current time)
+      // Current Time
+       
+console.log((firstTimeConverted));
+      
+console.log(currentTime);
+console.log(diffTime);
+console.log(tRemainder);
+console.log(tMinutesTillTrain);
+console.log(nextTrain);
       ref.push({
-        dbtrainName : trainName,
-        dbtrainDestination : trainDestination,
-        dbtrainStartTime : trainTimeFormatted,
-        dbTrainFrequency : mtrainFrequency
+
+       dbtrainName:trainName,
+       dbtrainDestination:trainDestination,
+       dbtrainStartTime:trainStartTime,
+       dbtrainFrequency:tFrequency,
+       dbtminutesTillTrain:tMinutesTillTrain,
+       dbNextTrain:nextTrain
 
       })
 
@@ -125,13 +157,30 @@
       return false; // prevent page refresh
 
 
-    })
+    });
 
-    // database.ref().on("child_added", function(snapshot) {
-        
-      
-    // });
+ database.ref().on("child_added", function(snapshot) {
 
+    
+    var postData = $("<tr>");
+    var postName = $("<td id='name'>");
+    var postDestination = $("<td id = 'destination'> ")
+    var postfrequency = $("<td id = 'frequency'>");
+    var postTimeTillNextTrain = $("<td id = 'timetillnexttrain'>");
+    var postNextTrain = $("<td id = 'nexttrain'>");
+    postName.text(snapshot.val().dbtrainName);
+    postDestination.text(snapshot.val().dbtrainDestination);
+    postfrequency.text(snapshot.val().dbtrainFrequency);
+    postTimeTillNextTrain.text(snapshot.val().dbtminutesTillTrain);
+    postNextTrain.text(nextTrain);
+
+    postData.append(postName,postDestination,postfrequency,postNextTrain,postTimeTillNextTrain);
+    $("#table-body").append(postData);
+
+
+    });
+  
+    // 
 
   </script>
 </body>
