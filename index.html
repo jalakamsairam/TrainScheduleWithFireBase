@@ -59,7 +59,7 @@
             </div>
             <div class="form-group">
               <label for="Train-start-time">Train Start Time(Military Time)</label>
-              <input type="text" class="form-control" id ="train-start-time" name="start-time" required>
+              <input type="text" class="form-control" id ="train-start-time" name="start-time" required placeholder="HH:mm format">
             </div>
             <div class="form-group">
               <label for="Train-start-time">Frequency in Minutes</label>
@@ -161,7 +161,10 @@ console.log(nextTrain);
 
  database.ref().on("child_added", function(snapshot) {
 
-    
+    var nexttrain = JSON.parse(snapshot.val().dbNextTrain);
+    console.log(nexttrain);
+    var connexttrain = moment(nexttrain).format("HH:mm");
+    console.log(connexttrain);
     var postData = $("<tr>");
     var postName = $("<td id='name'>");
     var postDestination = $("<td id = 'destination'> ")
@@ -172,7 +175,7 @@ console.log(nextTrain);
     postDestination.text(snapshot.val().dbtrainDestination);
     postfrequency.text(snapshot.val().dbtrainFrequency);
     postTimeTillNextTrain.text(snapshot.val().dbtminutesTillTrain);
-    postNextTrain.text(nextTrain);
+    postNextTrain.text(connexttrain);
 
     postData.append(postName,postDestination,postfrequency,postNextTrain,postTimeTillNextTrain);
     $("#table-body").append(postData);
